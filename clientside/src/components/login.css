@@ -1,0 +1,50 @@
+body{
+    background-image: url('https://media.istockphoto.com/photos/color-paper-background-picture-id1202665295?b=1&k=20&m=1202665295&s=170667a&w=0&h=hYn3h8ASP53WZukDyrJuEFUAjSK7_4VNeYN7dJCcv7U=');
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* margin: 0;
+    padding: 0; */
+}
+
+
+.mainCont{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid black; */
+    /* margin: 0px; */
+}
+
+.heading{
+    width: 300px;
+    background-color: rgb(16, 157, 223);
+    text-align: center;
+    color: white;
+}
+
+.form{
+    background-color: white;
+    width: 300px;
+    text-align: center;
+    font-size: large;
+    /* height: 100%; */
+    padding: 30px 0 ;
+}
+
+.btn{
+    width: 200px;
+    height: 40px;
+    background-color: rgb(16, 157, 223);
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: large;
+    color: white;
+    border: none;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
