@@ -7,13 +7,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-import Home from "./home";
 import Profile from "./profile";
 import Login from "./login"
 import Signup from "./signup"
 import ChangePassword from "./changePassword"
 import ForgetPassword from "./forgetPassword"
 import { get } from 'mongoose';
+import UserList from './userList';
 
 
 
@@ -133,7 +133,7 @@ function Render() {
       {(state.isLogin === true) ?
 
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<UserList />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="*" element={
