@@ -19,7 +19,7 @@ function UserList() {
     const [users, setUsers] = useState(null)
 
     useEffect(() => {
-
+        getUsers();
     }, [])
 
     const getUsers = async () => {
@@ -51,13 +51,15 @@ function UserList() {
 
             </form>
 
-            {
+            {(users?.length) ?
                 users?.map((eachUser, i) => {
                     <div key={i}>
                         <h2>{eachUser.firstName}</h2>
                         <span>{eachUser.email}</span>
                     </div>
                 })
+                :
+                null
             }
 
             {(users?.length === 0) ? "No users found" : null}

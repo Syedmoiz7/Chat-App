@@ -143,6 +143,22 @@ app.post('/api/v1/change-password', async (req, res) => {
 
 })
 
+app.get('/api/v1/users', (req, res) => {
+  const q = req.query.q
+
+  let query;
+
+  if (q) {
+
+  let query = userModel.findOne({firstName: q})
+
+  } else {
+    
+    let query = userModel.findOne({}).limit(20)
+
+  }
+})
+
 const __dirname = path.resolve();
 app.use('/', express.static(path.join(__dirname, './clientside/build')))
 app.use('*', express.static(path.join(__dirname, './clientside/build')))
