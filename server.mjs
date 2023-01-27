@@ -150,11 +150,11 @@ app.get('/api/v1/users', (req, res) => {
 
   if (q) {
 
-  let query = userModel.findOne({firstName: q})
+   query = userModel.findOne({$userSearch: {$search : q}})
 
   } else {
     
-    let query = userModel.findOne({}).limit(20)
+     query = userModel.findOne({}).limit(20)
 
   }
 })
