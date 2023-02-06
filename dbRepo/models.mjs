@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     isActive: {type: Boolean, default: true},
     createdOn: { type: Date, default: Date.now },
 });
-userSchema.index({firstName: 'userSearch', lastName: 'userSearch'})
+userSchema.index({firstName: 'text', lastName: 'text'})
 export const userModel = mongoose.model('Users', userSchema);
 
 const otpSchema = new mongoose.Schema({

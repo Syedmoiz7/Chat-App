@@ -5,6 +5,7 @@ import moment from 'moment/moment';
 import { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import './index.css'
+import './userList.css'
 import { GlobalContext } from '../context/Context';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -22,7 +23,8 @@ function UserList() {
         getUsers();
     }, [])
 
-    const getUsers = async () => {
+    const getUsers = async (e) => {
+        if (e) e.preventDefault();
         try {
             const response = await axios.get(`${state.baseUrl}/users?q=${searchTerm}`)
             console.log("response: ", response.data);
@@ -43,9 +45,10 @@ function UserList() {
         <div className='main'>
             <h1>Search User to start chat</h1>
             <form onSubmit={getUsers}>
-                <input type="search" onChange={(e) => {
-                    setSearchTerm(e.target.value)
-                }} />
+                <input type="search" placeholder='Search users '
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value)
+                    }} />
 
                 <button type='submit' >Search</button>
 
@@ -53,9 +56,10 @@ function UserList() {
 
             {(users?.length) ?
                 users?.map((eachUser, i) => {
-                    <div key={i}>
+                    return <div className='listOfUsers' key={i}>
                         <h2>{eachUser.firstName}</h2>
                         <span>{eachUser.email}</span>
+                        {(eachUser?.me) ? <span> Me </span> : null}
                     </div>
                 })
                 :
