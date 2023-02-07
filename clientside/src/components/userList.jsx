@@ -59,7 +59,7 @@ function UserList() {
                     return <div className='listOfUsers' key={i}>
                         <h2>{eachUser.firstName}</h2>
                         <span>{eachUser.email}</span>
-                        {(eachUser?.me) ? <span> Me </span> : null}
+                        {(eachUser?.me) ? <span> <br /> Me </span> : null}
                     </div>
                 })
                 :

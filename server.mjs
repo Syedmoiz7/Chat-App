@@ -146,7 +146,6 @@ app.post('/api/v1/change-password', async (req, res) => {
 app.get('/api/v1/users', async (req, res) => {
 
   const myId = req.body.token._id
-  console.log("type:" , typeof myId);
 
   try {
     const q = req.query.q
@@ -171,12 +170,10 @@ app.get('/api/v1/users', async (req, res) => {
         email: eachUser.email
       }
 
-      // console.log("each user type:" , typeof eachUser._id.toString());
-
       if (eachUser._id.toString() === myId) {
-
-        user.me === true
+        user.me = true
         return user;
+        
       } else {
         return user;
       }
