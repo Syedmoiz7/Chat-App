@@ -210,7 +210,7 @@ app.post('/api/v1/message', async (req, res) => {
   res.send("message sent successfully");
 })
 
-app.get('/api/v1/messages/:id', async (req, res) => {
+app.get('/api/v1/messages/:id', async (req, res) => { 
 
   const messages = await messageModel.find({
     $or: [
@@ -227,7 +227,7 @@ app.get('/api/v1/messages/:id', async (req, res) => {
     .populate({ path: 'from', select: 'firstName lastName email' })
     .populate({ path: 'to', select: 'firstName lastName email' })
     .limit(100)
-    .sort({ _id: -1 })
+    // .sort({ _id: -1 }) 
     .exec();
 
   res.send(messages);

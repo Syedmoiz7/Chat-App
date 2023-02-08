@@ -7,7 +7,7 @@ import { useState, useContext } from 'react';
 import './index.css'
 import './userList.css'
 import { useParams } from 'react-router-dom';
-
+import './chatScreen.css'
 import { GlobalContext } from '../context/Context';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -25,38 +25,37 @@ function ChatScreen() {
     const [conversation, setConversation] = useState(null);
     const [recipientProfile, setRecipientProfile] = useState({});
 
+    const getMessages = async () => {
+        try {
+            const response = await axios.get(`${state.baseUrl}/messages/${id}`)
+            console.log("response: ", response.data);
+            setConversation(response.data)
+
+        } catch (error) {
+            console.log("error in getting messages", error);
+        }
+    }
+
+    const getRecipientProfile = async () => {
+        try {
+            let response = await axios.get(
+                `${state.baseUrl}/profile/${id}`,
+                {
+                    withCredentials: true
+                });
+
+            console.log("RecipientProfile: ", response);
+            setRecipientProfile(response.data)
+        } catch (error) {
+            console.log("axios error: ", error);
+        }
+    }
+
     useEffect(() => {
 
-        const getRecipientProfile = async () => {
-            try {
-                let response = await axios.get(
-                    `${state.baseUrl}/profile/${id}`,
-                    {
-                        withCredentials: true
-                    });
-
-                console.log("RecipientProfile: ", response);
-                setRecipientProfile(response.data)
-            } catch (error) {
-                console.log("axios error: ", error);
-            }
-        }
         getRecipientProfile();
-
-    }, [])
-
-    useEffect(() => {
-        const getMessages = async () => {
-            try {
-                const response = await axios.get(`${state.baseUrl}/messages/${id}`)
-                console.log("response: ", response.data);
-                setConversation(response.data)
-
-            } catch (error) {
-                console.log("error in getting messages", error);
-            }
-        }
         getMessages();
+
     }, [])
 
     const sendMessage = async (e) => {
@@ -67,6 +66,7 @@ function ChatScreen() {
                 text: writeMessage
             })
             console.log("response: ", response.data);
+            getMessages();
 
         } catch (error) {
             console.log("error in sending message ", error);
@@ -94,20 +94,25 @@ function ChatScreen() {
 
             </form>
 
-            {(conversation?.length) ?
-                conversation?.map((eachMessage, index) => {
-                    return <div key={index}>
-                        <h2>{eachMessage.from.firstName}</h2>
-                        <span>{moment(eachMessage.createdOn).fromNow()}</span>
-                        <p>{eachMessage.text}</p>
-                    </div>
-                })
-                : null
-            }
+            <div className="messageCont">
+                {(conversation?.length) ?
+                    conversation?.map((eachMessage, index) => {
+                        const className = (eachMessage.from._id === id) ? "recipientMessage" : "myMessage"
+                        return <div key={index}
+                            className={`messageBox ${className} `}>
+                            <div className="messageText">
+                                <div className='name'>{eachMessage.from.firstName}</div>
+                                {/* <span className='time'>{moment(eachMessage.createdOn).fromNow()}</span> */}
+                                <div className='text'>{eachMessage.text}</div>
+                            </div>
+                        </div>
+                    })
+                    : null
+                }
+            </div>
 
             {(conversation?.length === 0 ? "No Messages found" : null)}
             {(conversation === null ? "Loading..." : null)}
-
         </div>
     )
 }
