@@ -2,38 +2,45 @@ import mongoose from 'mongoose';
 
 
 let tweetSchema = new mongoose.Schema({
-    text: { type: String, required: true },
-    owner: { type: mongoose.ObjectId, ref:"Users", required: true },
-    imageUrl: { type: String },
-    // likes: [{ type: mongoose.ObjectId }],
-    // comments: [{ 
-    //  user: {type: mongoose.ObjectId},
-    //  commentText: String
-    // }],
-    isDeleted: { type: Boolean, default: false },
-    createdOn: { type: Date, default: Date.now }
+  text: { type: String, required: true },
+  owner: { type: mongoose.ObjectId, ref: "Users", required: true },
+  imageUrl: { type: String },
+  // likes: [{ type: mongoose.ObjectId }],
+  // comments: [{ 
+  //  user: {type: mongoose.ObjectId},
+  //  commentText: String
+  // }],
+  isDeleted: { type: Boolean, default: false },
+  createdOn: { type: Date, default: Date.now }
 });
-
 export const tweetModel = mongoose.model('tweets', tweetSchema);
+
+const messagesSchema = new mongoose.Schema({
+  from: { type: mongoose.ObjectId, ref: 'Users', required: true },
+  to: { type: mongoose.ObjectId, ref: 'Users', required: true },
+  text: { type: String, required: true },
+  imageUrl: { type: String },
+  createdOn: { type: Date, default: Date.now },
+});
+messagesSchema.index({ text: 'text' });
+export const messageModel = mongoose.model('Messages', messagesSchema); 
 
 
 const userSchema = new mongoose.Schema({
-
-    firstName: { type: String },
-    lastName: { type: String },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
-    isActive: {type: Boolean, default: true},
-    createdOn: { type: Date, default: Date.now },
+  firstName: { type: String },
+  lastName: { type: String },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  isActive: { type: Boolean, default: true },
+  createdOn: { type: Date, default: Date.now },
 });
-userSchema.index({firstName: 'text', lastName: 'text'})
+userSchema.index({ firstName: 'text', lastName: 'text' })
 export const userModel = mongoose.model('Users', userSchema);
 
 const otpSchema = new mongoose.Schema({
-
   otp: String,
   email: String,
-  isUsed: {type: Boolean, default: false},
+  isUsed: { type: Boolean, default: false },
   createdOn: { type: Date, default: Date.now },
 });
 

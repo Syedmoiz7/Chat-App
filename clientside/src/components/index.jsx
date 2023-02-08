@@ -12,6 +12,7 @@ import Login from "./login"
 import Signup from "./signup"
 import ChangePassword from "./changePassword"
 import ForgetPassword from "./forgetPassword"
+import ChatScreen from "./chatScreen"
 import { get } from 'mongoose';
 import UserList from './userList';
 
@@ -136,6 +137,7 @@ function Render() {
           <Route path="/" element={<UserList />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/chat/:id" element={<ChatScreen />} />
           <Route path="*" element={
             <Navigate to="/" replace={true} />
           } />

@@ -8,7 +8,6 @@ import fs from "fs"
 
 import multer from 'multer';
 const storageConfig = multer.diskStorage({
-  destination: './uploads/',
   filename: function (req, file, cb) {
 
       console.log("mul-file: ", file);

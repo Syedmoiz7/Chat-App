@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import authApis from "./apis/auth.mjs"
 import tweetApi from "./apis/tweet.mjs"
-import { userModel } from './dbRepo/models.mjs';
+import { userModel, messageModel } from './dbRepo/models.mjs';
 import { stringToHash, varifyHash } from 'bcrypt-inzi';
 import { get } from 'http';
 import { stringify } from 'querystring';
@@ -173,7 +173,7 @@ app.get('/api/v1/users', async (req, res) => {
       if (eachUser._id.toString() === myId) {
         user.me = true
         return user;
-        
+
       } else {
         return user;
       }
@@ -186,6 +186,51 @@ app.get('/api/v1/users', async (req, res) => {
     res.send([])
   }
 
+
+})
+
+app.post('/api/v1/message', async (req, res) => {
+
+  if (
+    !req.body.text ||
+    !req.body.to
+  ) {
+    res.status("400").send("invalid input")
+    return;
+  }
+
+  const sent = await messageModel.create({
+    from: req.body.token._id,
+    to: req.body.to,
+    text: req.body.text
+  })
+
+  console.log("sent: ", sent)
+
+  res.send("message sent successfully");
+})
+
+app.get('/api/v1/messages/:id', async (req, res) => {
+
+  const messages = await messageModel.find({
+    $or: [
+      {
+        from: req.body.token._id,
+        to: req.params.id
+      },
+      {
+        from: req.params.id,
+        to: req.body.token._id,
+      }
+    ]
+  })
+    .populate({ path: 'from', select: 'firstName lastName email' })
+    .populate({ path: 'to', select: 'firstName lastName email' })
+    .limit(100)
+    .sort({ _id: -1 })
+    .exec();
+
+  res.send(messages);
 
 })
 

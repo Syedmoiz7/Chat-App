@@ -7,6 +7,7 @@ import { useState, useContext } from 'react';
 import './index.css'
 import './userList.css'
 import { GlobalContext } from '../context/Context';
+import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
 
 
@@ -57,9 +58,11 @@ function UserList() {
             {(users?.length) ?
                 users?.map((eachUser, i) => {
                     return <div className='listOfUsers' key={i}>
-                        <h2>{eachUser.firstName}</h2>
-                        <span>{eachUser.email}</span>
-                        {(eachUser?.me) ? <span> <br /> Me </span> : null}
+                        <Link to={`/chat/${eachUser._id}`}>
+                            <h2>{eachUser.firstName}</h2>
+                            <span>{eachUser.email}</span>
+                            {(eachUser?.me) ? <span> <br /> Me </span> : null}
+                        </Link>
                     </div>
                 })
                 :
