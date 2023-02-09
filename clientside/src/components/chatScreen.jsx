@@ -9,6 +9,7 @@ import './userList.css'
 import { useParams } from 'react-router-dom';
 import './chatScreen.css'
 import { GlobalContext } from '../context/Context';
+import io from 'socket.io-client';
 import InfiniteScroll from 'react-infinite-scroller';
 
 
@@ -50,6 +51,29 @@ function ChatScreen() {
             console.log("axios error: ", error);
         }
     }
+
+    useEffect(() => {
+
+        const socket = io(`${state.baseUrl}`); // to connect with locally running Socker.io server
+
+        socket.on('connect', function () {
+            console.log("connected")
+        });
+
+        // to subcribe to a topic
+        socket.on(`${state.user._id}-${id}`, function (data) {
+            console.log(data);
+        });
+
+        socket.on('disconnect', function (message) {
+            console.log("Socket disconnected from server: ", message);
+        });
+
+        return () => {
+            socket.close()
+        }
+        
+    }, [])
 
     useEffect(() => {
 
